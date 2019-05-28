@@ -32,10 +32,10 @@ export default {
           return Promise.reject();
         });
     },
-    loginFacebook({ commit }, { clientId }) {
+    loginFacebook({ commit }, { userId }) {
       return api
         .post("user/login/facebook", {
-          clientId
+          userId: userId
         })
         .then(({ data }) => {
           commit(types.LOGIN, data.user);

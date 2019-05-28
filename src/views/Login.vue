@@ -69,28 +69,51 @@ export default {
     },
     connectByFacebook() {
       let that = this;
-      FB.login(function(response) {
-        if (response.authResponse) {
-          console.log(response.authResponse);
-          that.$store.dispatch("loginFacebook", {
-            clientId: response.authResponse.accessToken
-          });
-        } else {
-          console.log("User cancelled login or did not fully authorize.");
-        }
-      });
+      FB.login(
+        function(response) {
+          if (response.authResponse) {
+            that.$store.dispatch("loginFacebook", {
+              userId: response.authResponse.userID
+            });
+          } else {
+            console.log("User cancelled login or did not fully authorize.");
+          }
+        },
+        { scope: "email" }
+      );
     }
   },
   mounted() {
-    gapi.signin2.render("my-signin2", {
-      scope: "profile email",
-      onsuccess: googleUser => {
-        this.connectByGoogle(googleUser);
-      },
-      onfailure: e => {
-        console.log(e);
-      }
-    });
+    let googleUser = {};
+    let auth2 = null;
+    let that = this;
+    let startApp = function() {
+      gapi.load("auth2", function() {
+        // Retrieve the singleton for the GoogleAuth library and set up the client.
+        auth2 = gapi.auth2.init({
+          client_id:
+            "449962804508-uqtd5pi2je3rot74e907cq739bga4sce.apps.googleusercontent.com",
+          cookiepolicy: "single_host_origin",
+          // Request scopes in addition to 'profile' and 'email'
+          scope: "profile email"
+        });
+        attachSignin(document.getElementById("my-signin2"), auth2);
+      });
+    };
+
+    function attachSignin(element, auth2) {
+      auth2.attachClickHandler(
+        element,
+        {},
+        function(googleUser) {
+          that.connectByGoogle(googleUser);
+        },
+        function(error) {
+          alert(JSON.stringify(error, undefined, 2));
+        }
+      );
+    }
+    startApp();
   }
 };
 </script>
@@ -105,5 +128,9 @@ export default {
       margin: 1rem;
     }
   }
+}
+
+#my-signin2 {
+  background-color: #dd4b39;
 }
 </style>
