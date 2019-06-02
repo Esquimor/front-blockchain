@@ -63,18 +63,26 @@ export default {
     },
     connectByGoogle(googleUser) {
       let id_token = googleUser.getAuthResponse().id_token;
-      this.$store.dispatch("loginGoogle", {
-        clientId: id_token
-      });
+      this.$store
+        .dispatch("loginGoogle", {
+          clientId: id_token
+        })
+        .then(() => {
+          this.$router.push({ name: "profile" });
+        });
     },
     connectByFacebook() {
       let that = this;
       FB.login(
         function(response) {
           if (response.authResponse) {
-            that.$store.dispatch("loginFacebook", {
-              userId: response.authResponse.userID
-            });
+            that.$store
+              .dispatch("loginFacebook", {
+                userId: response.authResponse.userID
+              })
+              .then(() => {
+                this.$router.push({ name: "profile" });
+              });
           } else {
             console.log("User cancelled login or did not fully authorize.");
           }

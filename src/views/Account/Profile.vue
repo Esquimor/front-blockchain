@@ -1,25 +1,19 @@
 <template>
-  <div class="profile">
-    <section class="profile-account">
-      <h2 class="title is-2">Account</h2>
-      <div class="profile-account-field">
-        <span class="profile-account-field-element">Email</span>
-        <span class="profile-account-field-label">{{ user.email }}</span>
-        <span class="profile-account-field-element">Amount</span>
-        <span class="profile-account-field-label">{{ wallet.amount }}</span>
+  <div class="Profile">
+    <section class="Profile-account">
+      <h2 class="title is-2">Compte</h2>
+      <div class="Profile-account-field">
+        <span class="Profile-elements">Pseudonyme:</span>
+        <span class="Profile-labels">{{ user.pseudonyme }}</span>
+        <span class="Profile-elements">Email:</span>
+        <span class="Profile-labels">{{ user.email }}</span>
+        <span class="Profile-elements">Crédit:</span>
+        <span class="Profile-labels">{{ user.amount }}</span>
       </div>
     </section>
-    <section class="profile-wallet">
-      <h2 class="title is-2">Wallet</h2>
-      <router-link :to="{ name: 'wallet' }">All your Wallet</router-link>
-      <div class="profile-wallet-input">
-        <h3 class="title is-4">Your last Input</h3>
-        {{ walletInputSortByDate[0] }}
-      </div>
-      <div class="profile-wallet-output">
-        <h3 class="title is-4">Your last Output</h3>
-        {{ walletOutputSortByDate[0] }}
-      </div>
+    <section class="Profile-rs">
+      <ButtonSI class="Profile-rs-button" color="dd4b39" label="Google" icon="google-plus"/>
+      <ButtonSI class="Profile-rs-button" color="3b5998" label="Facebook" icon="facebook"/>
     </section>
   </div>
 </template>
@@ -29,28 +23,41 @@
 
 import { mapGetters } from "vuex";
 
+import ButtonSI from "@/components/button/ButtonSI";
+
 export default {
   name: "Profile",
+  components: {
+    ButtonSI
+  },
   computed: {
-    ...mapGetters([
-      "user",
-      "wallet",
-      "walletInputByUser",
-      "walletOutputByUser"
-    ]),
-    walletInputSortByDate() {
-      return this.walletInputByUser(this.user.id).sort((a, b) => {
-        return b.date - a.date;
-      });
-    },
-    walletOutputSortByDate() {
-      return this.walletOutputByUser(this.user.id).sort((a, b) => {
-        return b.date - a.date;
-      });
-    }
+    ...mapGetters(["user", "wallet"])
   }
 };
 </script>
 
 <style lang="scss">
+.Profile {
+  margin: 20px 20% 0px 20%;
+  width: 60%;
+  &-elements {
+    margin-right: 20px;
+    margin-top: 10px;
+    font-weight: 800;
+  }
+  &-account {
+    &-field {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+  &-rs {
+    margin-top: 50px;
+    display: flex;
+    justify-content: space-around;
+    &-button {
+      width: 400px;
+    }
+  }
+}
 </style>
