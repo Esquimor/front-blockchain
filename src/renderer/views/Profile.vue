@@ -11,7 +11,7 @@
           <span class="Profile-elements">Clef public:</span>
           <span class="Profile-labels">{{ user.public_key }}</span>
           <span class="Profile-elements">Crédit:</span>
-          <span class="Profile-labels">{{ user.amount }}</span>
+          <span class="Profile-labels">{{ getAmount(user.public_key) }}</span>
           <BButton
             type="is-primary"
             class="Profile-buttons"
@@ -57,7 +57,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["user"])
+    ...mapGetters(["user", "getAmount", "chain"])
   }
 };
 </script>

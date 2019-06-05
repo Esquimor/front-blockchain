@@ -6,7 +6,7 @@
         class="Transferts-msg has-text-danger"
         v-if="error"
       >Une erreur est survenue. Merci de réessayer</span>
-      <span class="Transgerts-msg has-text-success" v-if="success">Opération réussite</span>
+      <span class="Transgerts-msg has-text-success" v-if="success">Opération réussie</span>
       <b-field label="Somme à acheter:">
         <b-numberinput min="0" v-model="amount" @input="deleteMsg"></b-numberinput>
       </b-field>

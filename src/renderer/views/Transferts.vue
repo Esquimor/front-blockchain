@@ -11,7 +11,7 @@
         class="Transferts-msg has-text-danger"
         v-if="errorMsg"
       >Une erreur est survenue. Merci de réessayer</span>
-      <span class="Transgerts-msg has-text-success" v-if="success">Opération réussite</span>
+      <span class="Transgerts-msg has-text-success" v-if="success">Opération réussie</span>
       <b-field label="Somme à transférer:">
         <b-numberinput min="0" :max="somme" v-model="amount" @input="deleteMsg"></b-numberinput>
       </b-field>
@@ -46,12 +46,15 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["user"]),
+    ...mapGetters(["user", "getAmount"]),
     somme() {
-      return this.device === "eur" ? this.user.amount : this.user.amount * 0.8;
+      return this.device === "eur" ? this.userAmount : this.userAmount * 0.8;
     },
     deviceType() {
       return this.device === "eur" ? "€" : "£";
+    },
+    userAmount() {
+      return this.getAmount(this.user.public_key);
     }
   },
   methods: {
