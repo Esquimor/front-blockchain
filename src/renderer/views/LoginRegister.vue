@@ -1,7 +1,7 @@
 <template>
   <div class="LoginRegister">
     <div class="LoginRegister-login">
-      <h2 class="title is-2">Login</h2>
+      <h2 class="title is-2">Se connecter</h2>
       <span class="has-text-danger" v-if="login.errorMsg">{{ login.errorMsg }}</span>
       <b-field label="Email">
         <BInput v-model="login.email" @input="removeErrorLogin" type="email"/>
@@ -9,7 +9,12 @@
       <b-field label="Mot de passe">
         <BInput v-model="login.password" @input="removeErrorLogin" type="password"/>
       </b-field>
-      <BButton class="is-primary" @click.native="loginUser">Se loger</BButton>
+      <BButton
+        class="is-primary"
+        @click.native="loginUser"
+        :disabled="login.disabled"
+        :loading="login.loading"
+      >Se connecter</BButton>
     </div>
     <div class="LoginRegister-register">
       <h2 class="title is-2">S'enregistrer</h2>
@@ -23,7 +28,12 @@
       <b-field label="Confirmation">
         <BInput v-model="register.confirmation" @input="removeErrorRegister" type="password"/>
       </b-field>
-      <BButton class="is-primary" @click.native="registerUser">S'enregistrer</BButton>
+      <BButton
+        class="is-primary"
+        @click.native="registerUser"
+        :disabled="register.disabled"
+        :loading="register.loading"
+      >S'enregistrer</BButton>
     </div>
   </div>
 </template>
@@ -38,24 +48,32 @@ export default {
       login: {
         email: "",
         password: "",
-        errorMsg: ""
+        errorMsg: "",
+        loading: false,
+        disabled: false
       },
       register: {
         email: "",
         password: "",
         confirmation: "",
-        errorMsg: ""
+        errorMsg: "",
+        loading: false,
+        disabled: false
       }
     };
   },
   methods: {
     loginUser() {
+      this.login.loading = true;
+      this.register.disabled = true;
       this.$store
         .dispatch("login", this.login)
         .then(() => {
           this.$router.push({ name: "profile" });
         })
         .catch(() => {
+          this.login.loading = false;
+          this.register.disabled = false;
           this.login.password = "";
           this.login.errorMsg = "Une erreur est survenue, merci de réessayer";
         });
@@ -64,12 +82,16 @@ export default {
       if (this.login.errorMsg !== "") this.login.errorMsg = "";
     },
     registerUser() {
+      this.register.loading = true;
+      this.login.disabled = true;
       this.$store
         .dispatch("register", this.register)
         .then(() => {
           this.$router.push({ name: "profile" });
         })
         .catch(() => {
+          this.register.loading = false;
+          this.login.disabled = false;
           this.register.password = "";
           this.register.confirmation = "";
           this.register.errorMsg =

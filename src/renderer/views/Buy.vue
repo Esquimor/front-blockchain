@@ -10,7 +10,7 @@
       <b-field label="Somme à acheter:">
         <b-numberinput min="0" v-model="amount" @input="deleteMsg"></b-numberinput>
       </b-field>
-      <BButton type="is-primary" @click.native="buy">Acheter</BButton>
+      <BButton type="is-primary" @click.native="buy" :loading="loading">Acheter</BButton>
     </div>
   </Default>
 </template>
@@ -29,18 +29,22 @@ export default {
     return {
       amount: 0,
       error: false,
-      success: false
+      success: false,
+      loading: false
     };
   },
   methods: {
     buy() {
+      this.loading = true;
       this.$store
         .dispatch("buy", this.amount)
         .then(() => {
           this.amount = 0;
           this.success = true;
+          this.loading = false;
         })
         .catch(() => {
+          this.loading = false;
           this.error = true;
         });
     },

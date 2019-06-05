@@ -18,7 +18,7 @@
       <b-field label="Adresse du receveur">
         <b-input v-model="receiver" @input="deleteMsg"/>
       </b-field>
-      <BButton type="is-primary" @click.native="transfert">Transférer</BButton>
+      <BButton type="is-primary" @click.native="transfert" :loading="loading">Transférer</BButton>
     </div>
   </Default>
 </template>
@@ -41,7 +41,8 @@ export default {
       amount: 0,
       receiver: "",
       success: false,
-      errorMsg: false
+      errorMsg: false,
+      loading: false
     };
   },
   computed: {
@@ -55,6 +56,7 @@ export default {
   },
   methods: {
     transfert() {
+      this.loading = true;
       const amount =
         this.device === "eur" ? this.amount : (100 * this.amount) / 80;
       this.$store
@@ -65,9 +67,11 @@ export default {
         .then(() => {
           this.success = true;
           this.amount = 0;
+          this.loading = false;
         })
         .catch(() => {
           this.errorMsg = true;
+          this.loading = false;
         });
     },
     deleteMsg() {
