@@ -1,39 +1,42 @@
 <template>
   <div class="LoginRegister">
-    <div class="LoginRegister-login">
-      <h2 class="title is-2">Se connecter</h2>
-      <span class="has-text-danger" v-if="login.errorMsg">{{ login.errorMsg }}</span>
-      <b-field label="Email">
-        <BInput v-model="login.email" @input="removeErrorLogin" type="email"/>
-      </b-field>
-      <b-field label="Mot de passe">
-        <BInput v-model="login.password" @input="removeErrorLogin" type="password"/>
-      </b-field>
-      <BButton
-        class="is-primary"
-        @click.native="loginUser"
-        :disabled="login.disabled"
-        :loading="login.loading"
-      >Se connecter</BButton>
-    </div>
-    <div class="LoginRegister-register">
-      <h2 class="title is-2">S'enregistrer</h2>
-      <span class="has-text-danger" v-if="register.errorMsg">{{ register.errorMsg }}</span>
-      <b-field label="Email">
-        <BInput v-model="register.email" @input="removeErrorRegister" type="email"/>
-      </b-field>
-      <b-field label="Mot de passe">
-        <BInput v-model="register.password" @input="removeErrorRegister" type="password"/>
-      </b-field>
-      <b-field label="Confirmation">
-        <BInput v-model="register.confirmation" @input="removeErrorRegister" type="password"/>
-      </b-field>
-      <BButton
-        class="is-primary"
-        @click.native="registerUser"
-        :disabled="register.disabled"
-        :loading="register.loading"
-      >S'enregistrer</BButton>
+    <img src="@/assets/logo.png">
+    <div class="LoginRegister-wrapper">
+      <div class="LoginRegister-login">
+        <h2 class="title is-2">Se connecter</h2>
+        <span class="has-text-danger" v-if="login.errorMsg">{{ login.errorMsg }}</span>
+        <b-field label="Email">
+          <BInput v-model="login.email" @input="removeErrorLogin" type="email"/>
+        </b-field>
+        <b-field label="Mot de passe">
+          <BInput v-model="login.password" @input="removeErrorLogin" type="password"/>
+        </b-field>
+        <BButton
+          class="is-primary"
+          @click.native="loginUser"
+          :disabled="login.disabled"
+          :loading="login.loading"
+        >Se connecter</BButton>
+      </div>
+      <div class="LoginRegister-register">
+        <h2 class="title is-2">S'enregistrer</h2>
+        <span class="has-text-danger" v-if="register.errorMsg">{{ register.errorMsg }}</span>
+        <b-field label="Email">
+          <BInput v-model="register.email" @input="removeErrorRegister" type="email"/>
+        </b-field>
+        <b-field label="Mot de passe">
+          <BInput v-model="register.password" @input="removeErrorRegister" type="password"/>
+        </b-field>
+        <b-field label="Confirmation">
+          <BInput v-model="register.confirmation" @input="removeErrorRegister" type="password"/>
+        </b-field>
+        <BButton
+          class="is-primary"
+          @click.native="registerUser"
+          :disabled="register.disabled"
+          :loading="register.loading"
+        >S'enregistrer</BButton>
+      </div>
     </div>
   </div>
 </template>
@@ -108,10 +111,17 @@ export default {
 <style lang="scss">
 .LoginRegister {
   display: flex;
-  padding: 10%;
-  > div {
-    width: 50%;
-    padding: 1rem;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 5%;
+  &-wrapper {
+    display: flex;
+    padding: 5%;
+    width: 100%;
+    > div {
+      width: 50%;
+      padding: 1rem;
+    }
   }
 }
 </style>

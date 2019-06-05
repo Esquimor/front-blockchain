@@ -1,6 +1,7 @@
 <template>
   <div class="DefaultTemplate">
     <nav class="DefaultTemplate-nav">
+      <img src="@/assets/logo.png">
       <router-link :to="{name: 'profile'}">Profile</router-link>
       <router-link :to="{name: 'transferts'}">Transferts</router-link>
       <router-link :to="{name: 'buy'}">Acheter des Jetons</router-link>
