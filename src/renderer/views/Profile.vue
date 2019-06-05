@@ -13,12 +13,20 @@
           <span class="Profile-elements">Crédit:</span>
           <span class="Profile-labels">{{ user.amount }}</span>
           <BButton
-            class="Profile-account-field-button"
             type="is-primary"
+            class="Profile-buttons"
             @click.native="openEdit = true"
           >Editer votre compte</BButton>
+          <BButton
+            type="is-primary"
+            class="Profile-buttons"
+            @click.native="openEditPasswod = true"
+          >Editer votre mot de passe</BButton>
           <BModal :active="openEdit" has-modal-card :can-cancel="false">
             <EditModalAccount @close="openEdit= false" :user="user"/>
+          </BModal>
+          <BModal :active="openEditPasswod" has-modal-card :can-cancel="false">
+            <EditModalPassword @close="openEditPasswod= false"/>
           </BModal>
         </div>
       </section>
@@ -33,16 +41,19 @@ import { mapGetters } from "vuex";
 
 import Default from "@/templates/Default";
 import EditModalAccount from "@/components/EditModalAccount";
+import EditModalPassword from "@/components/EditModalPassword";
 
 export default {
   name: "Profile",
   components: {
     Default,
-    EditModalAccount
+    EditModalAccount,
+    EditModalPassword
   },
   data() {
     return {
-      openEdit: false
+      openEdit: false,
+      openEditPasswod: false
     };
   },
   computed: {
@@ -72,6 +83,9 @@ export default {
         margin-top: 20px;
       }
     }
+  }
+  &-buttons {
+    margin-top: 25px;
   }
 }
 </style>

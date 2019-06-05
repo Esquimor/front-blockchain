@@ -4,13 +4,25 @@
       <header class="modal-card-head">
         <p class="modal-card-title">Editer votre compte</p>
       </header>
-      <section class="modal-card-body EditModalAccount">
-        <span class="has-text-danger EditModalAccount-error" v-if="errorMsg !== ''">{{ errorMsg }}</span>
-        <b-field label="Pseudonyme">
-          <b-input v-model="pseudonyme" placeholder="Pseudonyme" @input="removeErrror"></b-input>
+      <section class="modal-card-body EditModalPassword">
+        <span class="has-text-danger EditModalPassword-error" v-if="errorMsg !== ''">{{ errorMsg }}</span>
+        <b-field label="Mot de passe">
+          <b-input
+            type="password"
+            v-model="password"
+            placeholder="Mot de passe"
+            @input="removeErrror"
+            password-reveal
+          />
         </b-field>
-        <b-field label="Email">
-          <b-input type="email" v-model="email" placeholder="Email" @input="removeErrror">></b-input>
+        <b-field label="Confirmation">
+          <b-input
+            type="password"
+            v-model="confirmation"
+            placeholder="Confirmation"
+            @input="removeErrror"
+            password-reveal
+          />
         </b-field>
       </section>
       <footer class="modal-card-foot">
@@ -25,17 +37,11 @@
 "use strict";
 
 export default {
-  name: "EditModalAccount",
-  props: {
-    user: {
-      type: Object,
-      required: true
-    }
-  },
+  name: "EditModalPassword",
   data() {
     return {
-      pseudonyme: this.user.pseudonyme || "",
-      email: this.user.email || "",
+      password: "",
+      confirmation: "",
       errorMsg: "",
       loading: false
     };
@@ -44,15 +50,17 @@ export default {
     edit() {
       this.loading = true;
       this.$store
-        .dispatch("editUser", {
-          pseudonyme: this.pseudonyme,
-          email: this.email
+        .dispatch("editPassword", {
+          password: this.password,
+          confirmation: this.confirmation
         })
         .then(() => {
           this.$emit("close");
         })
         .catch(() => {
           this.loading = false;
+          this.password = false;
+          this.confirmation = false;
           this.errorMsg = "Une erreur est survenue. Merci de réessayer.";
         });
     },
@@ -64,7 +72,7 @@ export default {
 </script>
 
 <style lang="scss">
-.EditModalAccount {
+.EditModalPassword {
   width: 350px;
   > div:nth-child(even) {
     margin-top: 10px;
