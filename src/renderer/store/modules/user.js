@@ -78,7 +78,7 @@ export default {
           receiver
         })
         .then(() => {
-          commit(types.TRANSACTION, amount);
+          return Promise.resolve();
         })
         .catch(e => {
           return Promise.reject(e);
@@ -91,7 +91,7 @@ export default {
           amount
         })
         .then(() => {
-          commit(types.BUY, amount);
+          return Promise.resolve();
         })
         .catch(e => {
           return Promise.reject(e);
@@ -109,16 +109,6 @@ export default {
       state.user = Object.assign({}, state.user, {
         email: email,
         pseudonyme: pseudonyme
-      });
-    },
-    [types.TRANSACTION](state, amount) {
-      state.user = Object.assign({}, state.user, {
-        amount: state.user.amount - amount
-      });
-    },
-    [types.BUY](state, amount) {
-      state.user = Object.assign({}, state.user, {
-        amount: state.user.amount + amount
       });
     }
   }
